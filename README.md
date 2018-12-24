@@ -5,3 +5,7 @@ To edit styles, work inside the styles.scss file.
 Run project with this commmand in the Terminal:
 
 `npm run watch-css`
+
+Links:
+
+* [Watch & Compile your Sass with npm.](https://medium.com/@brianhan/watch-compile-your-sass-with-npm-9ba2b878415b)
