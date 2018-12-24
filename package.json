@@ -1,0 +1,17 @@
+{
+  "name": "techlife-v2",
+  "version": "1.0.0",
+  "description": "Techlife Podcast Theme v2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css": "./bin/build-css",
+    "watch-css": "./bin/watch-css"
+  },
+  "author": "Vasily Myazin",
+  "license": "ISC",
+  "devDependencies": {
+    "node-sass": "^4.11.0",
+    "nodemon": "^1.18.9"
+  }
+}
