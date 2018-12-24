@@ -1,5 +1,11 @@
-h1 Techlife Podcast Website v2
+# Techlife Podcast Website v2
 
-Run with this:
+To edit styles, work inside the styles.scss file.
+
+Run project with this commmand in the Terminal:
 
 `npm run watch-css`
+
+Links:
+
+* [Watch & Compile your Sass with npm.](https://medium.com/@brianhan/watch-compile-your-sass-with-npm-9ba2b878415b)
