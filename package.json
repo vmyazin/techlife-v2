@@ -13,5 +13,9 @@
   "devDependencies": {
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.9"
+  },
+  "dependencies": {
+    "common.js": "^1.1.1",
+    "react-xml-parser": "^1.0.8"
   }
 }
