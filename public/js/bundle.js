@@ -5897,7 +5897,6 @@ $(function() {
       // console.warn(episode);
       
       const episodeNumber = episode.title[0].split(":")[0];
-      // episode.example = true;
       episode.episodeNum = episodeNumber.replace("#","");
       episode.title = episode.title[0].replace(episodeNumber + ": ", "")
       return episode;
@@ -5906,19 +5905,18 @@ $(function() {
     window.showDetails = (e, num) => {
       e.preventDefault();
 
-      num = num + '';
+      num = num + ''; // update var JS type
   
       var result = episodeList.find(obj => {
         return obj.episodeNum === num; // get item with the given episode number
       });
 
       var template = '<div class="selected-box"><h3><span class="episode-num">№{{episodeNum}}</span> <a href="episodes/{{episodeNum}}">{{title}}</a> <span class="small-caps date">{{pubDate}}</span></h3>{{{description.0}}}</div>';
-      var text = mustache.to_html(template, result);
+      var tplOutput = mustache.to_html(template, result);
   
       let currentLi = document.getElementsByClassName('episode-' + num)[0];
-    
       currentLi.classList.add('selected');
-      currentLi.innerHTML = text;
+      currentLi.innerHTML = tplOutput;
       console.log(currentLi);
     }
 
@@ -5928,6 +5926,10 @@ $(function() {
 
     var list = document.getElementById('episode-list');
     list.insertAdjacentHTML('beforeend', tplOutput);
+
+    // select the lastest episode on load
+    let latestEpisodeNum = episodeList[0].episodeNum;
+    showDetails(event, latestEpisodeNum);
   }
 
   function parseXML2(data) {

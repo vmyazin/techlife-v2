@@ -52,6 +52,10 @@ $(function() {
 
     var list = document.getElementById('episode-list');
     list.insertAdjacentHTML('beforeend', tplOutput);
+
+    // select the lastest episode on load
+    let latestEpisodeNum = episodeList[0].episodeNum;
+    showDetails(event, latestEpisodeNum);
   }
 
   function parseXML2(data) {
