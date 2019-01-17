@@ -5872,11 +5872,6 @@ function config (name) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],31:[function(require,module,exports){
-window.hello = (e) => {
-  e.preventDefault();
-  showDetails();
-}
-
 $(function() {
 
   var xmlText,
@@ -5897,34 +5892,48 @@ $(function() {
 
   function renderList(data) {
     var mustache = require('mustache');
-    var xxx = [];
-    // var y = data.rss.channel[0].item.map(x => x.title[0]);
     
     const episodeList = data.rss.channel[0].item.map(episode => {
-
-      console.warn(episode);
+      // console.warn(episode);
       
       const episodeNumber = episode.title[0].split(":")[0];
-      episode.fucvkYou = true;
-      episode.numEpisode = episodeNumber.replace("#","");
+      // episode.example = true;
+      episode.episodeNum = episodeNumber.replace("#","");
       episode.title = episode.title[0].replace(episodeNumber + ": ", "")
       return episode;
     });
 
-    var template = "{{#.}}<li><span class='episode-num'>№{{numEpisode}}</span> <a onclick='hello(event)' href='episodes/{{numEpisode}}'>{{title}}</a></li>{{/.}}";
-    var text = mustache.to_html(template, episodeList);
+    window.showDetails = (e, num) => {
+      e.preventDefault();
+
+      num = num + '';
+  
+      var result = episodeList.find(obj => {
+        return obj.episodeNum === num; // get item with the given episode number
+      });
+
+      var template = '<div class="selected-box"><h3><span class="episode-num">№{{episodeNum}}</span> <a href="episodes/{{episodeNum}}">{{title}}</a> <span class="small-caps date">{{pubDate}}</span></h3>{{{description.0}}}</div>';
+      var text = mustache.to_html(template, result);
+  
+      let currentLi = document.getElementsByClassName('episode-' + num)[0];
+    
+      currentLi.classList.add('selected');
+      currentLi.innerHTML = text;
+      console.log(currentLi);
+    }
+
+    var template = "{{#.}}<li class='episode-{{episodeNum}}'><span class='episode-num'>№{{episodeNum}}</span> <a onclick='showDetails(event, {{episodeNum}})' href='episodes/{{episodeNum}}'>{{title}}</a></li>{{/.}}";
+    var tplOutput = mustache.to_html(template, episodeList);
     console.log(episodeList);
 
     var list = document.getElementById('episode-list');
-    list.insertAdjacentHTML('beforeend', text);
+    list.insertAdjacentHTML('beforeend', tplOutput);
   }
 
   function parseXML2(data) {
     var parseString = require('xml2js').parseString;
     parseString(data, function (err, w) {
-      // console.dir(withNumbers);
       renderList(w);
-      // console.log(withNumbers);
       window.w = w;
     });
   }

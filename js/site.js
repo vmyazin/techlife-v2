@@ -16,31 +16,42 @@ $(function() {
     }
   });
 
-  window.showDetails = (e) => {
-    e.preventDefault();
-    
-  }
-
   function renderList(data) {
     var mustache = require('mustache');
-    var xxx = [];
     
     const episodeList = data.rss.channel[0].item.map(episode => {
-      console.warn(episode);
+      // console.warn(episode);
       
       const episodeNumber = episode.title[0].split(":")[0];
-      // episode.example = true;
-      episode.numEpisode = episodeNumber.replace("#","");
+      episode.episodeNum = episodeNumber.replace("#","");
       episode.title = episode.title[0].replace(episodeNumber + ": ", "")
       return episode;
     });
 
-    var template = "{{#.}}<li><span class='episode-num'>№{{numEpisode}}</span> <a onclick='showDetails(event)' href='episodes/{{numEpisode}}'>{{title}}</a></li>{{/.}}";
-    var text = mustache.to_html(template, episodeList);
+    window.showDetails = (e, num) => {
+      e.preventDefault();
+
+      num = num + ''; // update var JS type
+  
+      var result = episodeList.find(obj => {
+        return obj.episodeNum === num; // get item with the given episode number
+      });
+
+      var template = '<div class="selected-box"><h3><span class="episode-num">№{{episodeNum}}</span> <a href="episodes/{{episodeNum}}">{{title}}</a> <span class="small-caps date">{{pubDate}}</span></h3>{{{description.0}}}</div>';
+      var tplOutput = mustache.to_html(template, result);
+  
+      let currentLi = document.getElementsByClassName('episode-' + num)[0];
+      currentLi.classList.add('selected');
+      currentLi.innerHTML = tplOutput;
+      console.log(currentLi);
+    }
+
+    var template = "{{#.}}<li class='episode-{{episodeNum}}'><span class='episode-num'>№{{episodeNum}}</span> <a onclick='showDetails(event, {{episodeNum}})' href='episodes/{{episodeNum}}'>{{title}}</a></li>{{/.}}";
+    var tplOutput = mustache.to_html(template, episodeList);
     console.log(episodeList);
 
     var list = document.getElementById('episode-list');
-    list.insertAdjacentHTML('beforeend', text);
+    list.insertAdjacentHTML('beforeend', tplOutput);
   }
 
   function parseXML2(data) {
