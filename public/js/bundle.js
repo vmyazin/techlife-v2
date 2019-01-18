@@ -5897,9 +5897,9 @@ $(function() {
     
     const episodeList = data.rss.channel[0].item.map(episode => {
       const episodeNumber = episode.title[0].split(":")[0];
-      episode.episodeNum = episodeNumber.replace("#","");
-      episode.title = episode.title[0].replace(episodeNumber + ": ", "")
-      episode.pubDateConverted = moment(episode.pubDate[0]).locale('ru').format("LL");
+      episode.episodeNum = episodeNumber.replace("#",""); // get clean episode number
+      episode.title = episode.title[0].replace(episodeNumber + ": ", ""); // get clean episode title
+      episode.pubDateConverted = moment(episode.pubDate[0]).locale('ru').format("LL"); // get neat episode date in Russian
       return episode;
     });
 
