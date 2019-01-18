@@ -17,14 +17,15 @@ $(function() {
   });
 
   function renderList(data) {
-    var mustache = require('mustache');
+    let mustache = require('mustache');
+    let moment = require('moment');
+    require('moment/locale/ru');
     
     const episodeList = data.rss.channel[0].item.map(episode => {
-      // console.warn(episode);
-      
       const episodeNumber = episode.title[0].split(":")[0];
       episode.episodeNum = episodeNumber.replace("#","");
       episode.title = episode.title[0].replace(episodeNumber + ": ", "")
+      episode.pubDateConverted = moment(episode.pubDate[0]).locale('ru').format("LL");
       return episode;
     });
 
@@ -37,7 +38,7 @@ $(function() {
         return obj.episodeNum === num; // get item with the given episode number
       });
 
-      var template = '<div class="selected-box"><h3><span class="episode-num">№{{episodeNum}}</span> <a href="episodes/{{episodeNum}}">{{title}}</a> <span class="small-caps date">{{pubDate}}</span></h3>{{{description.0}}}</div>';
+      var template = '<div class="selected-box"><h3><span class="episode-num">№{{episodeNum}}</span> <a href="episodes/{{episodeNum}}">{{title}}</a> <span class="small-caps date">{{pubDateConverted}}</span></h3>{{{description.0}}}</div>';
       var tplOutput = mustache.to_html(template, result);
   
       let currentLi = document.getElementsByClassName('episode-' + num)[0];
