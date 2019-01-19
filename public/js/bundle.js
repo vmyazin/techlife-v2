@@ -5872,15 +5872,71 @@ function config (name) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],31:[function(require,module,exports){
+
+let xmlText,
+    episodeList;
+
+let mustache = require('mustache');
+
+function parseXML2(data) {
+  var parseString = require('xml2js').parseString;
+  parseString(data, function (err, w) {
+    episodeList = getEpisodeList(w);
+    renderList(episodeList);
+
+    // select the lastest episode on load
+    let latestEpisodeNum = episodeList[0].episodeNum;
+    showDetails(event, latestEpisodeNum, episodeList);
+  });
+}
+
+function getEpisodeList(data) {
+  let moment = require('moment');
+  require('moment/locale/ru');
+
+  const episodeList = data.rss.channel[0].item.map(episode => {
+    const episodeNumber = episode.title[0].split(":")[0];
+    episode.episodeNum = episodeNumber.replace("#",""); // get clean episode number
+    episode.title = episode.title[0].replace(episodeNumber + ": ", ""); // get clean episode title
+    episode.pubDateConverted = moment(episode.pubDate[0]).locale('ru').format("LL"); // get neat episode date in Russian
+    return episode;
+  });
+
+  return episodeList;
+}
+
+showDetails = (e, num, episodeList) => {
+  e.preventDefault();
+
+  renderList(episodeList);
+
+  num = num + ''; // update var JS type
+
+  // get item with the given episode number
+  var selectedItem = episodeList.find(obj => {
+    return obj.episodeNum === num;
+  });
+
+  var template = '<div class="selected-box"><h3><span class="episode-num">№{{episodeNum}}</span> <a href="episodes/{{episodeNum}}">{{title}}</a> <span class="small-caps date">{{pubDateConverted}}</span></h3>{{{description.0}}}</div>';
+  let tplOutput = mustache.to_html(template, selectedItem);
+
+  // insert selected item HTML into current LI
+  let currentLi = document.getElementsByClassName('episode-' + num)[0];
+  currentLi.classList.add('selected');
+  currentLi.innerHTML = tplOutput;
+}
+
+function renderList(episodeList) {
+  var template = "{{#.}}<li class='episode-{{episodeNum}}'><span class='episode-num'>№{{episodeNum}}</span> <a onclick='showDetails(event, {{episodeNum}}, " + JSON.stringify(episodeList) + ")' href='javascript:void(0)'>{{title}}</a></li>{{/.}}";
+  var tplOutput = mustache.to_html(template, episodeList);
+
+  // insert HTML into UL
+  let listEl = document.getElementById('episode-list');
+  listEl.innerHTML = tplOutput;
+}
+
+// run on page ready
 $(function() {
-
-  let xmlText,
-      jsonEpisodeList;
-
-  let episodeList;
-
-  let mustache = require('mustache');
-
   $.ajax({
     url: 'http://techlifepodcast.com/podcast-feed.xml',
     type: 'GET',
@@ -5893,66 +5949,7 @@ $(function() {
       parseXML2(xmlText);
     }
   });
-
-  function parseXML2(data) {
-    var parseString = require('xml2js').parseString;
-    parseString(data, function (err, w) {
-      episodeList = getEpisodeList(w);
-      renderList(episodeList);
-
-      // select the lastest episode on load
-      console.log(episodeList[0]);
-      let latestEpisodeNum = episodeList[0].episodeNum;
-      showDetails(event, latestEpisodeNum, episodeList);
-    });
-  }
-
-  function getEpisodeList(data) {
-    let moment = require('moment');
-    require('moment/locale/ru');
-
-    const episodeList = data.rss.channel[0].item.map(episode => {
-      const episodeNumber = episode.title[0].split(":")[0];
-      episode.episodeNum = episodeNumber.replace("#",""); // get clean episode number
-      episode.title = episode.title[0].replace(episodeNumber + ": ", ""); // get clean episode title
-      episode.pubDateConverted = moment(episode.pubDate[0]).locale('ru').format("LL"); // get neat episode date in Russian
-      return episode;
-    });
-
-    return episodeList;
-  }
-
-  window.showDetails = (e, num, episodeList) => {
-    e.preventDefault();
-
-    renderList(episodeList);
-
-    num = num + ''; // update var JS type
-
-    var result = episodeList.find(obj => {
-      return obj.episodeNum === num; // get item with the given episode number
-    });
-
-    var template = '<div class="selected-box"><h3><span class="episode-num">№{{episodeNum}}</span> <a href="episodes/{{episodeNum}}">{{title}}</a> <span class="small-caps date">{{pubDateConverted}}</span></h3>{{{description.0}}}</div>';
-    let tplOutput = mustache.to_html(template, result);
-
-    let currentLi = document.getElementsByClassName('episode-' + num)[0];
-    currentLi.classList.add('selected');
-    currentLi.innerHTML = tplOutput;
-  }
-
-  function renderList(episodeList) {
-    // console.log(episodeList, '1');
-    var template = "{{#.}}<li class='episode-{{episodeNum}}'><span class='episode-num'>№{{episodeNum}}</span> <a onclick='showDetails(event, {{episodeNum}}, " + JSON.stringify(episodeList) + ")' href='javascript:void(0)'>{{title}}</a></li>{{/.}}";
-    var tplOutput = mustache.to_html(template, episodeList);
-
-    // insert HTML into UL
-    let listEl = document.getElementById('episode-list');
-    listEl.innerHTML = tplOutput;
-  }
 });
-
-
 
 },{"moment":33,"moment/locale/ru":32,"mustache":34,"xml2js":41}],32:[function(require,module,exports){
 //! moment.js locale configuration
