@@ -5886,7 +5886,7 @@ function parseXML2(data) {
 
     // select the lastest episode on load
     let latestEpisodeNum = episodeList[0].episodeNum;
-    showDetails(event, latestEpisodeNum, episodeList);
+    showDetails(event, episodeList, {showEpisodeNum: latestEpisodeNum, scrollToSelected: false});
   });
 }
 
@@ -5896,21 +5896,21 @@ function getEpisodeList(data) {
 
   const episodeList = data.rss.channel[0].item.map(episode => {
     const episodeNumber = episode.title[0].split(":")[0];
-    episode.episodeNum = episodeNumber.replace("#",""); // get clean episode number
-    episode.title = episode.title[0].replace(episodeNumber + ": ", ""); // get clean episode title
-    episode.pubDateConverted = moment(episode.pubDate[0]).locale('ru').format("LL"); // get neat episode date in Russian
+    episode.episodeNum = episodeNumber.replace("#",""); // add clean episode number
+    episode.title = episode.title[0].replace(episodeNumber + ": ", ""); // add clean episode title
+    episode.pubDateConverted = moment(episode.pubDate[0]).locale('ru').format("LL"); // add neat episode date in Russian
     return episode;
   });
 
   return episodeList;
 }
 
-showDetails = (e, num, episodeList) => {
+showDetails = (e, episodeList, properties) => {
   e.preventDefault();
 
   renderList(episodeList);
 
-  num = num + ''; // update var JS type
+  num = properties.showEpisodeNum + ''; // update var JS type
 
   // get item with the given episode number
   var selectedItem = episodeList.find(obj => {
@@ -5924,15 +5924,22 @@ showDetails = (e, num, episodeList) => {
   let currentLi = document.getElementsByClassName('episode-' + num)[0];
   currentLi.classList.add('selected');
   currentLi.innerHTML = tplOutput;
+  if (properties.scrollToSelected) smoothScroll(currentLi);
 }
 
 function renderList(episodeList) {
-  var template = "{{#.}}<li class='episode-{{episodeNum}}'><span class='episode-num'>№{{episodeNum}}</span> <a onclick='showDetails(event, {{episodeNum}}, " + JSON.stringify(episodeList) + ")' href='javascript:void(0)'>{{title}}</a></li>{{/.}}";
+  var template = "{{#.}}<li class='episode-{{episodeNum}}'><span class='episode-num'>№{{episodeNum}}</span> <a onclick='showDetails(event, " + JSON.stringify(episodeList) + ", {showEpisodeNum: {{episodeNum}}, scrollToSelected: true})' href='javascript:void(0)'>{{title}}</a></li>{{/.}}";
   var tplOutput = mustache.to_html(template, episodeList);
 
   // insert HTML into UL
   let listEl = document.getElementById('episode-list');
   listEl.innerHTML = tplOutput;
+}
+
+window.smoothScroll = function(target) {
+  $('html, body').animate({
+    scrollTop: $(target).offset().top
+  }, 700);
 }
 
 // run on page ready
