@@ -24,7 +24,7 @@ body {
 p {
   font-size: $font-s3;
   color: #F2F2F2;
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 p.small {
@@ -70,6 +70,7 @@ h2 {
   line-height: 1;
   font-size: $font-s1;
   color: $highlight;
+  margin-top: 2vw;
 }
 
 h3 {
@@ -139,6 +140,10 @@ h4 {
       max-width: 100%;
       height: auto;
     }
+
+    .date {
+      white-space: nowrap;
+    }
   }  
 
   .episode-num {
@@ -202,15 +207,21 @@ h4 {
   }
 }
 
-@media (max-width: 576px) and (min-width: 991px) {
-  .spacer-md {
-    height: 70px;
+@media (min-width: 479px) and (max-width: 768px) {
+  .spacer-sm {
+    height: 20vw;
   }
 }
 
-@media screen and (min-width: 992px) {
+@media (min-width: 769px) and (max-width: 992px) {
+  .spacer-md {
+    height: 25vw;
+  }
+}
+
+@media screen and (min-width: 993px) {
   .spacer-lg {
-    height: 70px;
+    height: 10vw;
   }
 }
 
@@ -224,5 +235,14 @@ h4 {
   li {
     padding-left: 0;
     margin-left: 20px;
+  }
+}
+
+.footer .row {
+  margin: 80px 0 0;
+
+  p {
+    font-size: $font-s4;
+    color: $mid-grey;
   }
 }

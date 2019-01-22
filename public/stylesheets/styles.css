@@ -20,7 +20,7 @@ body {
 p {
   font-size: 24px;
   color: #F2F2F2;
-  line-height: 1.4; }
+  line-height: 1.35; }
 
 p.small {
   font-size: 20px; }
@@ -55,7 +55,8 @@ h2 {
   font-weight: 600;
   line-height: 1;
   font-size: 60px;
-  color: #41caff; }
+  color: #41caff;
+  margin-top: 2vw; }
 
 h3 {
   font-size: 32px;
@@ -106,6 +107,8 @@ h4 {
     .episode-list li img {
       max-width: 100%;
       height: auto; }
+    .episode-list li .date {
+      white-space: nowrap; }
   .episode-list .episode-num {
     position: absolute;
     left: 0;
@@ -145,13 +148,17 @@ h4 {
   .spacer-xs {
     height: 25vw; } }
 
-@media (max-width: 576px) and (min-width: 991px) {
-  .spacer-md {
-    height: 70px; } }
+@media (min-width: 479px) and (max-width: 768px) {
+  .spacer-sm {
+    height: 20vw; } }
 
-@media screen and (min-width: 992px) {
+@media (min-width: 769px) and (max-width: 992px) {
+  .spacer-md {
+    height: 25vw; } }
+
+@media screen and (min-width: 993px) {
   .spacer-lg {
-    height: 70px; } }
+    height: 10vw; } }
 
 .bulleted {
   list-style: none;
@@ -162,3 +169,9 @@ h4 {
   .bulleted li {
     padding-left: 0;
     margin-left: 20px; }
+
+.footer .row {
+  margin: 80px 0 0; }
+  .footer .row p {
+    font-size: 20px;
+    color: #aaa; }
