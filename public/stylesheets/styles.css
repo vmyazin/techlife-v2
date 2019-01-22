@@ -9,6 +9,11 @@ body {
   font-family: 'Fira Sans', 'Helvetica Nueu', Arial, sans-serif;
   font-weight: 400; }
 
+@media (max-width: 479px) {
+  body {
+    background-position: calc(100% - 0px) top;
+    background-size: 130%; } }
+
 .hide {
   display: none; }
 
@@ -59,11 +64,22 @@ h3 {
 h3 .small-caps {
   font-size: 26px;
   font-weight: 300;
-  padding-left: 10px; }
+  padding-left: 10px;
+  text-transform: uppercase; }
 
 h4 {
   font-size: 24px;
   font-weight: 600; }
+
+@media (max-width: 479px) {
+  p {
+    font-size: 20px; }
+  h2 {
+    font-size: 32px; }
+  h3 {
+    font-size: 24px; }
+    h3 .small-caps {
+      font-size: 22px; } }
 
 .master-container {
   max-width: 1890px;
@@ -87,6 +103,9 @@ h4 {
       margin-left: -25px;
       margin-right: -25px;
       margin-bottom: 32px; }
+    .episode-list li img {
+      max-width: 100%;
+      height: auto; }
   .episode-list .episode-num {
     position: absolute;
     left: 0;
@@ -106,17 +125,25 @@ h4 {
       padding-left: 0;
       margin-top: 5px; } }
 
+@media (max-width: 479px) {
+  .episode-list {
+    font-size: 20px; } }
+
 .selected-box {
   position: relative; }
   .selected-box .episode-num {
     left: -87px; }
   .selected-box p {
-    line-height: 32px;
+    line-height: 1.35;
     color: #aaa; }
     .selected-box p:last-of-type {
       margin-bottom: 0; }
   .selected-box h4 {
     color: #fff; }
+
+@media (max-width: 479px) {
+  .spacer-xs {
+    height: 25vw; } }
 
 @media (max-width: 576px) and (min-width: 991px) {
   .spacer-md {
@@ -129,8 +156,9 @@ h4 {
 .bulleted {
   list-style: none;
   list-style-type: disc;
-  list-style-position: inside;
+  list-style-position: outside;
   margin: 0;
   padding: 0; }
   .bulleted li {
-    padding-left: 10px; }
+    padding-left: 0;
+    margin-left: 20px; }

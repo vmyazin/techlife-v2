@@ -10,6 +10,13 @@ body {
   font-weight: 400;
 }
 
+@media (max-width: 479px) {
+  body {
+    background-position: calc(100% - 0px) top;
+    background-size: 130%;
+  }
+}
+
 .hide {
   display: none;
 }
@@ -58,7 +65,6 @@ h1 {
   }
 }
 
-
 h2 {
   font-weight: 600;
   line-height: 1;
@@ -75,11 +81,31 @@ h3 .small-caps {
   font-size: 26px;
   font-weight: 300;
   padding-left: 10px;
+  text-transform: uppercase;
 }
 
 h4 {
   font-size: $font-s3;  
   font-weight: 600;
+}
+
+// font sizes XS
+@media (max-width: 479px) {
+  p {
+    font-size: $font-s4;
+  }
+
+  h2 {
+    font-size: $font-s2;
+  }
+
+  h3 {
+    font-size: $font-s3;
+
+    .small-caps {
+      font-size: 22px;
+    }
+  }
 }
 
 .master-container {
@@ -107,6 +133,11 @@ h4 {
       margin-left: -25px;
       margin-right: -25px;
       margin-bottom: $font-s2;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
     }
   }  
 
@@ -137,6 +168,13 @@ h4 {
   }
 }
 
+// font sizes XS
+@media (max-width: 479px) {
+  .episode-list {
+    font-size: $font-s4;
+  }
+}
+
 .selected-box {
   position: relative;
 
@@ -145,7 +183,7 @@ h4 {
   }
   
   p {
-    line-height: $font-s2;
+    line-height: 1.35;
     color: $mid-grey;
 
     &:last-of-type {
@@ -155,6 +193,12 @@ h4 {
 
   h4 {
     color: #fff;
+  }
+}
+
+@media (max-width: 479px) {
+  .spacer-xs {
+    height: 25vw;
   }
 }
 
@@ -173,11 +217,12 @@ h4 {
 .bulleted {
   list-style: none;
   list-style-type: disc;
-  list-style-position: inside;
+  list-style-position: outside;
   margin: 0;
   padding: 0;
 
   li {
-    padding-left: 10px;
+    padding-left: 0;
+    margin-left: 20px;
   }
 }
