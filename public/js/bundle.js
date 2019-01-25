@@ -5874,7 +5874,8 @@ function config (name) {
 },{}],31:[function(require,module,exports){
 
 let xmlText,
-    episodeList;
+    episodeList,
+    listEl = document.getElementById('episode-list');
 
 let mustache = require('mustache');
 
@@ -5932,7 +5933,6 @@ function renderList(episodeList) {
   var tplOutput = mustache.to_html(template, episodeList);
 
   // insert HTML into UL
-  let listEl = document.getElementById('episode-list');
   listEl.innerHTML = tplOutput;
 }
 
@@ -5948,9 +5948,10 @@ $(function() {
     url: 'http://techlifepodcast.com/podcast-feed.xml',
     type: 'GET',
     dataType: 'text',
-    timeout: 1000,
+    timeout: 2000,
     error: function(){
-      alert('Error loading XML document');
+      listEl.innerHTML = "<li>Error loading podcast feed document</li>";
+      // alert('Error loading XML document');
     },
     success: function(xmlText) {
       parseXML2(xmlText);
