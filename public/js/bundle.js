@@ -5917,7 +5917,7 @@ showDetails = (e, episodeList, properties) => {
     return obj.episodeNum === num;
   });
 
-  var template = '<div class="selected-box"><h3><span class="episode-num">№{{episodeNum}}</span> <a href="episodes/{{episodeNum}}">{{title}}</a> <span class="small-caps date">{{pubDateConverted}}</span></h3>{{{description.0}}}</div>';
+  var template = '<div class="selected-box"><h3><span class="episode-num">№{{episodeNum}}</span> <a href="http://techlifepodcast.com/episodes/{{episodeNum}}">{{title}}</a> <span class="small-caps date">{{pubDateConverted}}</span></h3>{{{description.0}}}</div>';
   let tplOutput = mustache.to_html(template, selectedItem);
 
   // insert selected item HTML into current LI
