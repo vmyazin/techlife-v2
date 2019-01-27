@@ -144,6 +144,11 @@ h4 {
   .selected-box h4 {
     color: #fff; }
 
+.episode-desc {
+  position: relative; }
+  .episode-desc > p {
+    width: calc(100% - 100px); }
+
 @media (max-width: 479px) {
   .spacer-xs {
     height: 25vw; } }
@@ -175,3 +180,44 @@ h4 {
   .footer .row p {
     font-size: 20px;
     color: #aaa; }
+
+.player {
+  position: absolute;
+  top: 0;
+  right: 20px; }
+
+.btn-play {
+  width: 66px;
+  height: 66px;
+  background-image: url(../images/btn-play.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  cursor: pointer;
+  text-indent: -4000px; }
+  .btn-play:hover {
+    opacity: 0.7; }
+  .btn-play.is-playing {
+    background-image: url(../images/btn-pause.svg);
+    position: relative; }
+    .btn-play.is-playing::after {
+      content: '';
+      position: absolute;
+      left: 1px;
+      right: 1px;
+      top: 1px;
+      bottom: 1px;
+      border: 3px dotted #111;
+      border-radius: 50%;
+      animation: rotating 20s linear infinite; }
+
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg); } }

@@ -44,13 +44,19 @@ showDetails = (e, episodeList, properties) => {
     return obj.episodeNum === num;
   });
 
-  var template = '<div class="selected-box"><h3><span class="episode-num">№{{episodeNum}}</span> <a href="http://techlifepodcast.com/episodes/{{episodeNum}}">{{title}}</a> <span class="small-caps date">{{pubDateConverted}}</span></h3>{{{description.0}}}</div>';
+  var template = '<div class="selected-box"><h3><span class="episode-num">№{{episodeNum}}</span> <a href="http://techlifepodcast.com/episodes/{{episodeNum}}">{{title}}</a> <span class="small-caps date">{{pubDateConverted}}</span></h3><section class="episode-desc">{{{description.0}}}<div class="player"><p id="play" class="btn-play">Play</p></div></section></div>';
+  
   let tplOutput = mustache.to_html(template, selectedItem);
+
+  console.log(selectedItem.guid[0]);
 
   // insert selected item HTML into current LI
   let currentLi = document.getElementsByClassName('episode-' + num)[0];
   currentLi.classList.add('selected');
   currentLi.innerHTML = tplOutput;
+
+  initAudioPlayer(selectedItem.guid[0]);
+  
   if (properties.scrollToSelected) smoothScroll(currentLi);
 }
 
@@ -60,6 +66,34 @@ function renderList(episodeList) {
 
   // insert HTML into UL
   listEl.innerHTML = tplOutput;
+}
+
+initAudioPlayer = (file) => {
+  soundManager.destroySound('audio');
+  soundManager.setup({
+    debugMode: false,
+    onready: function() {
+      let currentAudio = soundManager.createSound({
+        id: 'audio',
+        url: file
+      });
+
+      let playBtn = document.getElementsByClassName('btn-play')[0];
+
+      playBtn.addEventListener('click', function() {        
+        if (currentAudio.playState === 0 || currentAudio.paused === true) {       currentAudio.play();
+          this.classList.add('is-playing');
+        } else {
+          currentAudio.pause();
+          this.classList.remove('is-playing');
+        }
+      });
+    },
+    ontimeout: function() {
+      console.log('player timeout');
+      soundManager.reboot();
+    }
+  });
 }
 
 window.smoothScroll = function(target) {
