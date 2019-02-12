@@ -2,6 +2,10 @@
 
 To edit styles, work inside the styles.scss file.
 
+After cloning install NPM packages:
+
+`npm install`
+
 Run project with this commmand in the Terminal:
 
 `npm run watch-css`
