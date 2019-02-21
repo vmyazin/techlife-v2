@@ -13,7 +13,7 @@ function parseXML2(data) {
 
     // select the lastest episode on load
     let latestEpisodeNum = episodeList[0].episodeNum;
-    showDetails(event, episodeList, {showEpisodeNum: latestEpisodeNum, scrollToSelected: false});
+    showDetails(window.event, episodeList, {showEpisodeNum: latestEpisodeNum, scrollToSelected: false});
   });
 }
 
@@ -25,6 +25,7 @@ function getEpisodeList(data) {
     const episodeNumber = episode.title[0].split(":")[0];
     episode.episodeNum = episodeNumber.replace("#",""); // add clean episode number
     episode.title = episode.title[0].replace(episodeNumber + ": ", ""); // add clean episode title
+    console.info(episode.episodeNum);
     episode.pubDateConverted = moment(episode.pubDate[0]).locale('ru').format("LL"); // add neat episode date in Russian
     return episode;
   });
@@ -36,6 +37,8 @@ showDetails = (e, episodeList, properties) => {
   e.preventDefault();
 
   renderList(episodeList);
+
+  console.log('num', properties.showEpisodeNum);
 
   num = properties.showEpisodeNum + ''; // update var JS type
 
@@ -105,7 +108,7 @@ window.smoothScroll = function(target) {
 // run on page ready
 $(function() {
   $.ajax({
-    url: 'http://techlifepodcast.com/podcast-feed.xml',
+    url: 'http://techlifepodcast.com/archive-feed.xml?kskks',
     type: 'GET',
     dataType: 'text',
     timeout: 2000,

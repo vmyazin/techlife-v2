@@ -11,6 +11,7 @@
   "author": "Vasily Myazin",
   "license": "ISC",
   "devDependencies": {
+    "minifyify": "^7.3.5",
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.9"
   },

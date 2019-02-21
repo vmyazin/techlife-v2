@@ -51,6 +51,14 @@ a.link-ext {
   border: none;
 }
 
+.reset-link-style {
+  border-bottom: 0;
+}
+
+.mask-link-style {
+  border-bottom: 1px black solid;
+}
+
 h1 {
   color: #fff;
   font-size: 10vw;
@@ -88,6 +96,10 @@ h3 .small-caps {
 h4 {
   font-size: $font-s3;  
   font-weight: 600;
+}
+
+h3, h4, h5 {
+  color: #aaa;
 }
 
 // font sizes XS
@@ -140,10 +152,6 @@ h4 {
       max-width: 100%;
       height: auto;
     }
-
-    .date {
-      white-space: nowrap;
-    }
   }  
 
   .episode-num {
@@ -151,6 +159,10 @@ h4 {
     left: 0;
     top: 0;
   }
+}
+
+.date {
+  white-space: nowrap;
 }
 
 @media screen and (max-width: 576px) {
@@ -199,13 +211,25 @@ h4 {
   h4 {
     color: #fff;
   }
+
+  .player {
+    position: absolute;
+    top: 0;
+    right: 20px;
+  }
 }
 
 .episode-desc {
   position: relative;    
+  font-size: $font-s3;
+  color: $mid-grey;
 
   > p {
     width: calc(100% - 100px);
+  }
+
+  ul {
+    margin-bottom: 15px;
   }
 }
 
@@ -254,12 +278,6 @@ h4 {
     font-size: $font-s4;
     color: $mid-grey;
   }
-}
-
-.player {
-  position: absolute;
-  top: 0;
-  right: 20px;
 }
 
 .btn-play {

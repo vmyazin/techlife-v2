@@ -40,6 +40,12 @@ a.link-ext {
   background: #fff;
   border: none; }
 
+.reset-link-style {
+  border-bottom: 0; }
+
+.mask-link-style {
+  border-bottom: 1px black solid; }
+
 h1 {
   color: #fff;
   font-size: 10vw;
@@ -71,6 +77,9 @@ h3 .small-caps {
 h4 {
   font-size: 24px;
   font-weight: 600; }
+
+h3, h4, h5 {
+  color: #aaa; }
 
 @media (max-width: 479px) {
   p {
@@ -107,12 +116,13 @@ h4 {
     .episode-list li img {
       max-width: 100%;
       height: auto; }
-    .episode-list li .date {
-      white-space: nowrap; }
   .episode-list .episode-num {
     position: absolute;
     left: 0;
     top: 0; }
+
+.date {
+  white-space: nowrap; }
 
 @media screen and (max-width: 576px) {
   .episode-list li.selected {
@@ -143,11 +153,19 @@ h4 {
       margin-bottom: 0; }
   .selected-box h4 {
     color: #fff; }
+  .selected-box .player {
+    position: absolute;
+    top: 0;
+    right: 20px; }
 
 .episode-desc {
-  position: relative; }
+  position: relative;
+  font-size: 24px;
+  color: #aaa; }
   .episode-desc > p {
     width: calc(100% - 100px); }
+  .episode-desc ul {
+    margin-bottom: 15px; }
 
 @media (max-width: 479px) {
   .spacer-xs {
@@ -180,11 +198,6 @@ h4 {
   .footer .row p {
     font-size: 20px;
     color: #aaa; }
-
-.player {
-  position: absolute;
-  top: 0;
-  right: 20px; }
 
 .btn-play {
   width: 66px;
