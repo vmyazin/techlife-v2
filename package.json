@@ -1,25 +1,29 @@
 {
   "name": "techlife-v2",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Techlife Podcast Theme v2",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-css": "./bin/build-css",
-    "watch-css": "./bin/watch-css"
+    "build:js": "browserify js/*.js -d -p [minifyify --no-map] > public/js/bundle.js",
+    "build:css": "node-sass --include-path scss scss/bootstrap-ext.scss public/stylesheets/bootstrap-ext.css | node-sass --include-path scss scss/styles.scss public/stylesheets/styles.css",
+    "build": "npm run build:js && npm run build:css",
+    "build:watch": "watch 'npm run build' js/ scss/"
   },
   "author": "Vasily Myazin",
   "license": "ISC",
   "devDependencies": {
     "minifyify": "^7.3.5",
     "node-sass": "^4.11.0",
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.10",
+    "watch": "^1.0.2"
   },
   "dependencies": {
     "common.js": "^1.1.1",
-    "moment": "^2.23.0",
+    "moment": "^2.24.0",
     "mustache": "^3.0.1",
-    "react-xml-parser": "^1.0.8",
+    "react-xml-parser": "^1.1.2",
+    "uglify-es": "git+https://github.com/mishoo/UglifyJS2.git#harmony",
     "xml2js": "^0.4.19"
   }
 }
