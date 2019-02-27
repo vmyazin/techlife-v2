@@ -8,10 +8,10 @@ After cloning install NPM packages:
 
 Run project with this commmand in the Terminal:
 
-`npm run watch-css`
+`npm run build:watch`
 
 TO-DO:
-* improve build to include JS watcher
+* add JS router
 
 Links:
 
