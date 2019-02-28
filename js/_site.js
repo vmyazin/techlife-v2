@@ -1,14 +1,15 @@
+window.app = window.app || {};
 
 let xmlText,
     episodeList,
-    listEl = document.getElementById('episode-list');
+    listEl;
 
 let mustache = require('mustache');
 
 function parseXML2(data) {
   var parseString = require('xml2js').parseString;
   parseString(data, function (err, w) {
-    episodeList = getEpisodeList(w);
+    episodeList = window.episodeList = getEpisodeList(w);
     renderList(episodeList);
 
     // select the lastest episode on load
@@ -25,7 +26,6 @@ function getEpisodeList(data) {
     const episodeNumber = episode.title[0].split(":")[0];
     episode.episodeNum = episodeNumber.replace("#",""); // add clean episode number
     episode.title = episode.title[0].replace(episodeNumber + ": ", ""); // add clean episode title
-    console.info(episode.episodeNum);
     episode.pubDateConverted = moment(episode.pubDate[0]).locale('ru').format("LL"); // add neat episode date in Russian
     return episode;
   });
@@ -38,7 +38,29 @@ showDetails = (e, episodeList, properties) => {
 
   renderList(episodeList);
 
-  console.log('num', properties.showEpisodeNum);
+  num = properties.showEpisodeNum + ''; // update var JS type
+
+  // get item with the given episode number
+  var selectedItem = episodeList.find(obj => {
+    return obj.episodeNum === num;
+  });
+
+  var template = '<div class="selected-box"><h3><span class="episode-num">№{{episodeNum}}</span> <a href="./#/{{episodeNum}}">{{title}}</a> <span class="small-caps date">{{pubDateConverted}}</span></h3><section class="episode-desc">{{{description.0}}}<div class="player"><p id="play" class="btn-play">Play</p></div></section></div>';
+  
+  let tplOutput = mustache.to_html(template, selectedItem);
+
+  // insert selected item HTML into current LI
+  let currentLi = document.getElementsByClassName('episode-' + num)[0];
+  currentLi.classList.add('selected');
+  currentLi.innerHTML = tplOutput;
+
+  initAudioPlayer(selectedItem.enclosure[0].$.url);
+  
+  if (properties.scrollToSelected) smoothScroll(currentLi);
+}
+
+showEpisodeInfo = (episodeList, properties) => {
+  renderList(episodeList);
 
   num = properties.showEpisodeNum + ''; // update var JS type
 
@@ -47,20 +69,18 @@ showDetails = (e, episodeList, properties) => {
     return obj.episodeNum === num;
   });
 
-  var template = '<div class="selected-box"><h3><span class="episode-num">№{{episodeNum}}</span> <a href="http://techlifepodcast.com/episodes/{{episodeNum}}">{{title}}</a> <span class="small-caps date">{{pubDateConverted}}</span></h3><section class="episode-desc">{{{description.0}}}<div class="player"><p id="play" class="btn-play">Play</p></div></section></div>';
+  console.log(selectedItem);
+
+  smoothScroll($('body'));
+
+  var template = '<h3><span class="small-caps date">12 декабря 2018 г.</span></h3><h2>№{{episodeNum}} {{title}}</h2><p class="m-b-2"><a href="{{enclosure.0.$.url}}"><span class="mask-link-style"><img src="public/images/icon-download.svg" alt="Download"> </span>Скачать</a><div class="player"><p id="play" class="btn-play">Play</p></div></p><section class="episode-desc">{{{description.0}}}</section></div>';
   
   let tplOutput = mustache.to_html(template, selectedItem);
 
-  console.log(selectedItem.guid[0]);
+  // insert selected item HTML into view
+  document.getElementById('episode-details').innerHTML = tplOutput;
 
-  // insert selected item HTML into current LI
-  let currentLi = document.getElementsByClassName('episode-' + num)[0];
-  currentLi.classList.add('selected');
-  currentLi.innerHTML = tplOutput;
-
-  initAudioPlayer(selectedItem.guid[0]);
-  
-  if (properties.scrollToSelected) smoothScroll(currentLi);
+  initAudioPlayer(selectedItem.enclosure[0].$.url);
 }
 
 function renderList(episodeList) {
@@ -105,10 +125,9 @@ window.smoothScroll = function(target) {
   }, 700);
 }
 
-// run on page ready
-$(function() {
+window.loadFeed = () => {
   $.ajax({
-    url: 'http://techlifepodcast.com/archive-feed.xml?kskks',
+    url: 'archive-feed.xml',
     type: 'GET',
     dataType: 'text',
     timeout: 2000,
@@ -119,4 +138,10 @@ $(function() {
       parseXML2(xmlText);
     }
   });
+}
+
+// run on page ready
+$(function() {
+  listEl = document.getElementById('episode-list');
+  window.loadFeed();
 });

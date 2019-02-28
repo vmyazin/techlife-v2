@@ -13,10 +13,14 @@
   "author": "Vasily Myazin",
   "license": "ISC",
   "devDependencies": {
+    "babelify": "^10.0.0",
     "minifyify": "^7.3.5",
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10",
     "watch": "^1.0.2"
+  },
+  "browserify": {
+    "transform": ["babelify"]
   },
   "dependencies": {
     "common.js": "^1.1.1",
